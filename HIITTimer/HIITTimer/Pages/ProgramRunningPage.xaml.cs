@@ -4,23 +4,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace HIITTimer.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ProgramsPage : ContentPage
+    public partial class ProgramRunningPage : ContentPage
     {
-        public ProgramsPage()
+        public ProgramRunningPage()
         {
-            BindingContext = new ProgramsViewModel();
+            BindingContext = new ProgramRunningViewModel();
             InitializeComponent();
-        }
-        protected override async void OnAppearing()
-        {
-            BindingContext = new ProgramsViewModel();
-            base.OnAppearing();
         }
     }
 }

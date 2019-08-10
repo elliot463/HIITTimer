@@ -11,7 +11,7 @@ namespace HIITTimer
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
         public string ProgramName { get; set; }
-        public int Repeats { get; set; }
+        public int Repeats { get; set;  }
         public int DisplayOrder { get; set; }
     }
 }

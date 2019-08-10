@@ -41,6 +41,13 @@ namespace HIITTimer
         {
             return database.Table<IntervalTable>().OrderBy(a => a.IntervalOrder).ToListAsync();
         }
+        public Task<IntervalTable> GetIntervalByID(int iD)
+        {
+            var interval = from h in database.Table<IntervalTable>()
+                           where h.ID.Equals(iD)
+                           select h;
+            return interval.FirstAsync();
+        }
         public Task<int> SaveIntervalAsync(IntervalTable item)
         {
             if (item.ID != 0)
@@ -62,6 +69,14 @@ namespace HIITTimer
                                    where h.ProgramID.Equals(programID)
                                    select h;
             return programIntervals.ToListAsync();
+        }
+        public Task<int> DeleteProgramIntervals(List<IntervalTable> intervals)
+        {
+            foreach (IntervalTable i in intervals)
+            {
+                database.DeleteAsync(i);
+            }
+            return Task.FromResult(intervals.Count);
         }
     }
 }

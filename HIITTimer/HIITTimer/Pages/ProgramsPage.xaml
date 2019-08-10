@@ -4,18 +4,55 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
+             x:Name="_programsPage"
              x:Class="HIITTimer.Pages.ProgramsPage">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Select a Program"
+        <ScrollView>
+            <StackLayout>
+                <Label Text="Select a Program"
                 VerticalOptions="Start" 
                 HorizontalOptions="CenterAndExpand" />
-            <Picker x:Name="_programList"
+                <Picker x:Name="_programList"
                     ItemsSource="{Binding ProgramList}"
                     ItemDisplayBinding="{Binding ProgramName}"
-                    SelectedItem="{Binding SelectedProgram}"
-                    HorizontalOptions="FillAndExpand">
-            </Picker>
-        </StackLayout>
+                    SelectedItem="{Binding SelectedProgram}"  
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Start">
+                </Picker>
+                <Label Text="{Binding SelectedProgram.Repeats,                             
+                                  StringFormat='Program Repeats {0} times'}"
+                   HorizontalOptions="CenterAndExpand"
+                   VerticalOptions="Start" />
+                <StackLayout BindableLayout.ItemsSource="{Binding ProgramIntervals}" VerticalOptions="StartAndExpand">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout Orientation="Horizontal">
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={x:Reference _programsPage},
+                                                                        Path=BindingContext.EditIntervalCommand}"
+                                                      CommandParameter="{Binding ID}" />
+                                </StackLayout.GestureRecognizers>
+                                <Label Text="{Binding IntervalOrder, StringFormat='{0}.'}"
+                                   HorizontalOptions="Start"/>
+                                <Label Text="{Binding IntervalName}"
+                                   HorizontalOptions="Start"/>
+                                <Label Text="{Binding IntervalLength, StringFormat='{0} seconds'}"
+                                   HorizontalOptions="EndAndExpand"/>
+                            </StackLayout>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+                <Button Text="Start Program"
+                        Command="{Binding StartProgramCommand}"
+                        CommandParameter="{Binding SelectedProgram}"
+                        HorizontalOptions="Center"
+                        VerticalOptions="End" />
+                <Button Text="Delete Program"
+                        Command="{Binding DeleteProgramCommand}"
+                        CommandParameter="{Binding SelectedProgram}"
+                        HorizontalOptions="Center"
+                        VerticalOptions="End" />
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

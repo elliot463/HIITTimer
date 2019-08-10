@@ -9,9 +9,9 @@ using Xamarin.Forms;
 
 namespace HIITTimer.ViewModels
 {
-    class EditProgramViewModel : BaseViewModel
+    class NewProgramViewModel : BaseViewModel
     {
-        public EditProgramViewModel()
+        public NewProgramViewModel()
         {
             SaveProgramCommand = new Command(async () => await SaveProgram());
         }
@@ -53,27 +53,19 @@ namespace HIITTimer.ViewModels
             };
             List<ProgramTable> data = await App.Database.GetProgramsAsync();
             Program.DisplayOrder = data.Count + 1;
-            await App.Database.SaveProgramAsync(Program);
-            Debug.Write(Program.ID);
-            for (int i = 0; i < NewIntervals; i++)
+            await App.Database.SaveProgramAsync(Program);            
+            for (int i = 1; i <= NewIntervals; i++)
             {
                 var intervalData = new IntervalTable();
                 intervalData.ProgramID = Program.ID;
-                if ((i % 2) == 0)
-                {
-                    intervalData.IntervalName = "Exercise";
-                    intervalData.IntervalOrder = i;
-                    intervalData.IntervalLength = 20;
-                }
-                else
-                {
-                    intervalData.IntervalName = "Rest";
-                    intervalData.IntervalOrder = i;
-                    intervalData.IntervalLength = 10;                
-                }
+                intervalData.IntervalName = "Interval " + i.ToString();
+                intervalData.IntervalOrder = i;
+                intervalData.IntervalLength = 20;
+
                 await App.Database.SaveIntervalAsync(intervalData);
             }
             await Application.Current.MainPage.DisplayAlert("Program Created", "Program has been created!", "OK");
+            await Shell.Current.GoToAsync($"///yourprograms?newProgram={Program.ID}");
         }
     }
 }

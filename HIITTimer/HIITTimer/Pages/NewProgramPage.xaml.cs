@@ -15,7 +15,7 @@ namespace HIITTimer.Pages
     {
         public NewProgramPage()
         {
-            BindingContext = new EditProgramViewModel();
+            BindingContext = new NewProgramViewModel();
             InitializeComponent();
         }
     }

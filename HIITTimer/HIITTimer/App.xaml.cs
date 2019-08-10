@@ -10,6 +10,7 @@ namespace HIITTimer
     {
         public App()
         {
+            ActiveProgram = 0;
             InitializeComponent();
 
             MainPage = new AppShell();
@@ -45,5 +46,7 @@ namespace HIITTimer
                 return database;
             }
         }
+        public static int ActiveProgram { get; set; }
+
     }
 }

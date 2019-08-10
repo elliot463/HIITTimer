@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HIITTimer.Pages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,8 @@ namespace HIITTimer
         public AppShell()
         {
             InitializeComponent();
+            Routing.RegisterRoute("runprogram", typeof(ProgramRunningPage));
+            Routing.RegisterRoute("editinterval", typeof(EditIntervalPage));
         }
     }
 }

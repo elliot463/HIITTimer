@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="HIITTimer.Pages.EditIntervalPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Interval Name"
+                VerticalOptions="Start" 
+                HorizontalOptions="CenterAndExpand" />
+            <Entry Text="{Binding Interval.IntervalName}"
+                   VerticalOptions="Start"
+                   HorizontalOptions="CenterAndExpand" />
+            <Label Text="Interval Length (seconds)"
+                VerticalOptions="Start" 
+                HorizontalOptions="CenterAndExpand" />
+            <Entry Text="{Binding Interval.IntervalLength}"
+                   VerticalOptions="StartAndExpand"
+                   HorizontalOptions="CenterAndExpand" />
+            <Button Text="Update Interval"
+                        Command="{Binding SaveIntervalCommand}"
+                        HorizontalOptions="Center"
+                        VerticalOptions="End" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
