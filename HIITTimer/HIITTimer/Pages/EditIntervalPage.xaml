@@ -12,15 +12,21 @@
                 HorizontalOptions="CenterAndExpand" />
             <Entry Text="{Binding Interval.IntervalName}"
                    VerticalOptions="Start"
-                   HorizontalOptions="CenterAndExpand" />
+                   HorizontalOptions="CenterAndExpand"
+                   WidthRequest="100"/>
             <Label Text="Interval Length (seconds)"
                 VerticalOptions="Start" 
                 HorizontalOptions="CenterAndExpand" />
             <Entry Text="{Binding Interval.IntervalLength}"
                    VerticalOptions="StartAndExpand"
-                   HorizontalOptions="CenterAndExpand" />
+                   HorizontalOptions="CenterAndExpand"                   
+                   WidthRequest="100"/>
             <Button Text="Update Interval"
                         Command="{Binding SaveIntervalCommand}"
+                        HorizontalOptions="Center"
+                        VerticalOptions="End" />
+            <Button Text="Delete Interval"
+                        Command="{Binding DeleteIntervalCommand}"
                         HorizontalOptions="Center"
                         VerticalOptions="End" />
         </StackLayout>

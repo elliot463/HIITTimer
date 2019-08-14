@@ -15,10 +15,6 @@
                 VerticalOptions="Start" 
                 HorizontalOptions="CenterAndExpand" />
             <Entry x:Name="_repeats" Text="{Binding Repeats}"/>
-            <Label Text="Number of Intervals"
-                   VerticalOptions="Start"
-                   HorizontalOptions="CenterAndExpand" />
-            <Entry x:Name="_newIntervals" Text="{Binding NewIntervals}" />
             <Button Text="Create Program"
                     Command="{Binding SaveProgramCommand}"
                     VerticalOptions="End"

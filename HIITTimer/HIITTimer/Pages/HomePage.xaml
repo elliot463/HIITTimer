@@ -7,9 +7,10 @@
              x:Class="HIITTimer.Pages.HomePage">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <Button Text="Reset Database"
+                    Command="{Binding ResetDatabaseCommand}"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

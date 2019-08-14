@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HIITTimer.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,7 @@ namespace HIITTimer.Pages
     {
         public HomePage()
         {
+            BindingContext = new HomeViewModel(); 
             InitializeComponent();
         }
     }

@@ -20,6 +20,7 @@ namespace HIITTimer.ViewModels
             DeleteProgramCommand = new Command(async () => await ExecuteDeleteProgramCommand());
             StartProgramCommand = new Command(async () => await ExecuteStartProgramCommand());
             EditIntervalCommand = new Command<int>(async (int e) => await ExecuteEditIntervalCommand(e));
+            NewIntervalCommand = new Command(async () => await ExecuteNewIntervalCommand());
             LoadProgramsCommand = new Command(async () => await ExecuteLoadProgramsCommand());
             ExecuteLoadProgramsCommand();
         }
@@ -29,6 +30,7 @@ namespace HIITTimer.ViewModels
         public Command DeleteProgramCommand { get; private set; }
         public Command StartProgramCommand { get; private set; }
         public Command EditIntervalCommand { get; private set; }
+        public Command NewIntervalCommand { get; private set; }
         public Command LoadProgramsCommand { get; private set; }
         public ProgramTable SelectedProgram
         {
@@ -64,7 +66,6 @@ namespace HIITTimer.ViewModels
             {
                 List<ProgramTable> data = await App.Database.GetProgramsAsync();
                 ProgramList.ReplaceRange(data.OrderByDescending(a => a.DisplayOrder));
-                Debug.Write(App.ActiveProgram);
                 if (App.ActiveProgram == 0)
                 {
                     SelectedProgram = ProgramList.FirstOrDefault();
@@ -85,13 +86,15 @@ namespace HIITTimer.ViewModels
         }
         private async Task ExecuteDeleteProgramCommand()
         {
-
-            List<IntervalTable> data = ProgramIntervals.ToList();
-            await App.Database.DeleteProgramIntervals(data);
-            await App.Database.DeleteProgramAsync(SelectedProgram);
-            await ExecuteLoadProgramsCommand();
-            SelectedProgram = ProgramList.FirstOrDefault();
-            App.ActiveProgram = 0;
+            if (SelectedProgram != null)
+            {
+                List<IntervalTable> data = ProgramIntervals.ToList();
+                await App.Database.DeleteProgramIntervals(data);
+                await App.Database.DeleteProgramAsync(SelectedProgram);
+                await ExecuteLoadProgramsCommand();
+                SelectedProgram = ProgramList.FirstOrDefault();
+                App.ActiveProgram = 0;
+            }
         }
         private async Task ExecuteStartProgramCommand()
         {
@@ -101,6 +104,12 @@ namespace HIITTimer.ViewModels
         {
             App.ActiveProgram = ProgramList.IndexOf(SelectedProgram);
             await Shell.Current.GoToAsync($"editinterval?intervalID={ID}");
+        }
+        private async Task ExecuteNewIntervalCommand()
+        {
+            App.ActiveProgram = ProgramList.IndexOf(SelectedProgram);
+            App.ActiveProgramID = SelectedProgram.ID;
+            await Shell.Current.GoToAsync("editinterval?intervalID=-1");
         }
     }
 }

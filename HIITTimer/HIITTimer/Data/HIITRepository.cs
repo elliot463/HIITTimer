@@ -16,7 +16,14 @@ namespace HIITTimer
             database.CreateTableAsync<ProgramTable>().Wait();
             database.CreateTableAsync<IntervalTable>().Wait();
         }
-
+        public async Task<bool> Reset()
+        {
+            database.DropTableAsync<ProgramTable>().Wait();
+            database.DropTableAsync<IntervalTable>().Wait();
+            database.CreateTableAsync<ProgramTable>().Wait();
+            database.CreateTableAsync<IntervalTable>().Wait();
+            return true;
+        }
         public Task<List<ProgramTable>> GetProgramsAsync()
         {
             return database.Table<ProgramTable>().OrderBy(a => a.DisplayOrder).ToListAsync();

@@ -11,6 +11,7 @@ namespace HIITTimer
         public App()
         {
             ActiveProgram = 0;
+            ActiveProgramID = 0; 
             InitializeComponent();
 
             MainPage = new AppShell();
@@ -47,6 +48,7 @@ namespace HIITTimer
             }
         }
         public static int ActiveProgram { get; set; }
+        public static int ActiveProgramID { get; set; }
 
     }
 }

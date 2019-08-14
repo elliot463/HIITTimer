@@ -53,17 +53,7 @@ namespace HIITTimer.ViewModels
             };
             List<ProgramTable> data = await App.Database.GetProgramsAsync();
             Program.DisplayOrder = data.Count + 1;
-            await App.Database.SaveProgramAsync(Program);            
-            for (int i = 1; i <= NewIntervals; i++)
-            {
-                var intervalData = new IntervalTable();
-                intervalData.ProgramID = Program.ID;
-                intervalData.IntervalName = "Interval " + i.ToString();
-                intervalData.IntervalOrder = i;
-                intervalData.IntervalLength = 20;
-
-                await App.Database.SaveIntervalAsync(intervalData);
-            }
+            await App.Database.SaveProgramAsync(Program);
             await Application.Current.MainPage.DisplayAlert("Program Created", "Program has been created!", "OK");
             await Shell.Current.GoToAsync($"///yourprograms?newProgram={Program.ID}");
         }
