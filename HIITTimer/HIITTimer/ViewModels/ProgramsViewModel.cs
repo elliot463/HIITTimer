@@ -8,9 +8,10 @@ using System.Windows.Input;
 using MvvmHelpers;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using Acr.UserDialogs;
 
 namespace HIITTimer.ViewModels
-{   
+{
     class ProgramsViewModel : BaseViewModel
     {
         public ProgramsViewModel()
@@ -22,8 +23,11 @@ namespace HIITTimer.ViewModels
             EditIntervalCommand = new Command<int>(async (int e) => await ExecuteEditIntervalCommand(e));
             NewIntervalCommand = new Command(async () => await ExecuteNewIntervalCommand());
             LoadProgramsCommand = new Command(async () => await ExecuteLoadProgramsCommand());
+            EditRepeatsCommand = new Command(async () => await ExecuteEditRepeatsCommand());
             ExecuteLoadProgramsCommand();
         }
+
+
         public ObservableRangeCollection<ProgramTable> ProgramList { get; set; }
         public ObservableRangeCollection<IntervalTable> ProgramIntervals { get; set; }
         ProgramTable selectedProgram;
@@ -32,6 +36,7 @@ namespace HIITTimer.ViewModels
         public Command EditIntervalCommand { get; private set; }
         public Command NewIntervalCommand { get; private set; }
         public Command LoadProgramsCommand { get; private set; }
+        public Command EditRepeatsCommand { get; private set; }
         public ProgramTable SelectedProgram
         {
             get { return selectedProgram; }
@@ -43,7 +48,7 @@ namespace HIITTimer.ViewModels
         }
         private async Task LoadIntervals()
         {
-            
+
             if (SelectedProgram != null)
             {
                 List<IntervalTable> data = await App.Database.GetProgramIntervals(SelectedProgram.ID);
@@ -52,7 +57,7 @@ namespace HIITTimer.ViewModels
             else
             {
                 List<IntervalTable> data = ProgramIntervals.ToList();
-                ProgramIntervals.RemoveRange(data);                
+                ProgramIntervals.RemoveRange(data);
             }
         }
         private async Task ExecuteLoadProgramsCommand()
@@ -74,7 +79,7 @@ namespace HIITTimer.ViewModels
                 {
                     SelectedProgram = ProgramList[App.ActiveProgram];
                 }
-                    
+
             }
             catch (Exception ex)
             {
@@ -110,6 +115,19 @@ namespace HIITTimer.ViewModels
             App.ActiveProgram = ProgramList.IndexOf(SelectedProgram);
             App.ActiveProgramID = SelectedProgram.ID;
             await Shell.Current.GoToAsync("editinterval?intervalID=-1");
+        }
+        private async Task ExecuteEditRepeatsCommand()
+        {
+            PromptResult result = await UserDialogs.Instance.PromptAsync(new PromptConfig()
+                .SetTitle("Repeats:")
+                .SetPlaceholder(SelectedProgram.Repeats.ToString())
+                .SetInputMode(InputType.Number));
+            var data = ProgramList.ToList();
+            data[data.IndexOf(SelectedProgram)].Repeats = Convert.ToInt32(result.Value);
+            await App.Database.SaveProgramAsync(SelectedProgram);
+            App.ActiveProgram = ProgramList.IndexOf(SelectedProgram);
+            App.ActiveProgramID = SelectedProgram.ID;
+            await ExecuteLoadProgramsCommand();
         }
     }
 }

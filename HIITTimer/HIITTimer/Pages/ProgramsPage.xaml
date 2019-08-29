@@ -22,7 +22,11 @@
                 <Label Text="{Binding SelectedProgram.Repeats,                             
                                   StringFormat='Program Repeats {0} times'}"
                    HorizontalOptions="CenterAndExpand"
-                   VerticalOptions="Start" />
+                   VerticalOptions="Start">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding EditRepeatsCommand}"/>
+                    </Label.GestureRecognizers>
+                </Label>
                 <StackLayout BindableLayout.ItemsSource="{Binding ProgramIntervals}" VerticalOptions="Start">
                     <BindableLayout.ItemTemplate>
                         <DataTemplate>
